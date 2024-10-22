@@ -10,15 +10,5 @@ namespace Core.Features.Calculator
         public TMP_InputField InputField;
         public Button SubmitButton;
         public Transform ResultContainer;
-
-        public override void Show()
-        {
-            base.Show();
-        }
-
-        public override void Hide()
-        {
-            base.Hide();
-        }
     }
 }

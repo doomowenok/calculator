@@ -21,7 +21,6 @@ namespace Core.Boot
         public void Initialize()
         {
             _stateMachine.AddState(_stateFactory.CreateState<BootstrapState>());
-            _stateMachine.AddState(_stateFactory.CreateState<LoadProgressState>());
             _stateMachine.AddState(_stateFactory.CreateState<CoreState>());
 
             _stateMachine.Enter<BootstrapState>();

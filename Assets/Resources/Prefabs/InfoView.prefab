@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 3701868264403656444}
   - component: {fileID: 7876684298141017905}
   - component: {fileID: 3651776792665819828}
+  - component: {fileID: 170594056443115690}
   m_Layer: 5
   m_Name: InfoView
   m_TagString: Untagged
@@ -238,6 +239,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &170594056443115690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3680249469517448180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68473e36de34440ebbfb2dfccaa3b2e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MessageText: {fileID: 6943685824558007153}
+  OkButton: {fileID: 8298612154380648175}
 --- !u!1 &4788245423423105839
 GameObject:
   m_ObjectHideFlags: 0

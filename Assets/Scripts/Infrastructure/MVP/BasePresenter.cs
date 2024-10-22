@@ -1,9 +1,13 @@
 namespace Infrastructure.MVP
 {
-    public abstract class BasePresenter<TView, TModel> where TView : BaseView<TModel> where TModel : BaseModel
+    public abstract class BasePresenter<TView, TModel, TShowParams> : IPresenter 
+        where TView : BaseView<TModel> 
+        where TModel : BaseModel
+        where TShowParams : class, IShowParams
     {
         protected TModel Model { get; private set; }
         protected TView View { get; private set; }
+        protected TShowParams ShowParams { get; private set; }
 
         protected BasePresenter() { }
 
@@ -28,9 +32,15 @@ namespace Infrastructure.MVP
         }
         
         public virtual void Initialize() { }
-
-        public virtual void Show()
+        
+        public virtual void Update()
         {
+            Model.Update();
+        }
+
+        public virtual void Show(IShowParams showParams)
+        {
+            ShowParams = showParams as TShowParams;
             View.Show();
         }
 

@@ -1,4 +1,4 @@
-using System;
+using Core.Features.Calculator.Factory;
 using Zenject;
 
 namespace Core.Features.Calculator.Installer
@@ -8,8 +8,14 @@ namespace Core.Features.Calculator.Installer
         public override void InstallBindings()
         {
             Container
-                .Bind(typeof(CalculatorModel), typeof(IInitializable), typeof(IDisposable))
-                .To<CalculatorModel>()
+                .Bind<CalculatorModel>()
+                .ToSelf()
+                .AsSingle()
+                .Lazy();
+
+            Container
+                .Bind<ICalculatorElementFactory>()
+                .To<CalculatorElementFactory>()
                 .AsSingle()
                 .Lazy();
         }

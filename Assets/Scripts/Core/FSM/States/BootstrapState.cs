@@ -11,7 +11,7 @@ namespace Core.FSM.States
         
         public void Enter()
         {
-            _stateMachine.Enter<LoadProgressState>();
+            _stateMachine.Enter<CoreState>();
         }
 
         public void Exit()

@@ -2,7 +2,8 @@
     "name": "MVP",
     "rootNamespace": "",
     "references": [
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:f5604ad1005a542109af81d802ce756d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

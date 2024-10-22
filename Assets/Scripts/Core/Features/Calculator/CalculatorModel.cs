@@ -1,56 +1,69 @@
 using System;
 using System.Collections.Generic;
-using Extensions.Property;
 using Infrastructure.MVP;
+using Newtonsoft.Json;
+using Services.Parser;
 using Services.Save;
 using UnityEngine;
-using Zenject;
 
 namespace Core.Features.Calculator
 {
     [Serializable]
-    public sealed class CalculatorModel : BaseModel, IInitializable, IDisposable, ISaveLoadable<CalculatorModel>
+    public sealed class CalculatorModel : BaseModel, ISaveLoadable<CalculatorModel>
     {
+        private readonly IExpressionParser _expressionParser;
+        private readonly ISaveService _saveService;
         public event Action<string, SubmitResultType> OnResultsChanged;
-        
-        private string _field = string.Empty;
-        private List<string> _results = new List<string>();
-        
-        public INotifyProperty<string> Field { get; private set; } = new NotifyProperty<string>();
 
-        void IInitializable.Initialize()
-        {
-            Field.OnValueChanged += UpdateField;
-        }
+        public string LastField;
+        public List<string> Results { get; private set; } = new List<string>();
 
-        void IDisposable.Dispose()
+        public CalculatorModel(IExpressionParser expressionParser, ISaveService saveService)
         {
-            Field.OnValueChanged -= UpdateField;
+            _expressionParser = expressionParser;
+            _saveService = saveService;
         }
 
         string ISaveLoadable<CalculatorModel>.PrepareForSave()
         {
-            return JsonUtility.ToJson(this);
+            return JsonConvert.SerializeObject(this);
         }
 
         void ISaveLoadable<CalculatorModel>.Load(CalculatorModel data)
         {
-            _field = data._field;
-            Field.Value = data._field;
-
-            _results = data._results;
+            LastField = data.LastField;
+            Debug.Log(data.LastField);
+            Results = new List<string>(data.Results);
         }
 
-        private void UpdateField(string field)
+        public override void Update()
         {
-            _field = field;
+            foreach (string result in Results)
+            {
+                OnResultsChanged?.Invoke(result, SubmitResultType.Success);
+            }
+        }
+
+        public void SetField(string field)
+        {
+            LastField = field;
+            _saveService.Save(this);
         }
 
         public void Calculate()
         {
-            // Calculation
-            _results.Add(String.Empty);
-            OnResultsChanged?.Invoke(_results[^1], SubmitResultType.Success);
+            bool parseResult = _expressionParser.TryGetResult(LastField, out int result);
+            SubmitResultType resultType = parseResult ? SubmitResultType.Success : SubmitResultType.Error;
+
+            string final = resultType switch
+            {
+                SubmitResultType.Error => $"{LastField}=ERROR",
+                SubmitResultType.Success => $"{LastField}={result}",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            Results.Add(final);
+            OnResultsChanged?.Invoke(Results[^1], resultType);
         }
     }
 }

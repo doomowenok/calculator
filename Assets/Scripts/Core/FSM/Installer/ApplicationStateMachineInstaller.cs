@@ -27,12 +27,6 @@ namespace Core.FSM.Installer
                 .NonLazy();
             
             Container
-                .Bind<LoadProgressState>()
-                .ToSelf()
-                .AsSingle()
-                .NonLazy();
-            
-            Container
                 .Bind<CoreState>()
                 .ToSelf()
                 .AsSingle()

@@ -1,3 +1,4 @@
+using Core.UI;
 using UnityEngine;
 using Zenject;
 
@@ -6,6 +7,7 @@ namespace Core.Boot.Installer
     public sealed class BootInstaller : MonoInstaller
     {
         [SerializeField] private Bootstrapper _bootstrapper;
+        [SerializeField] private UIRoot _uiRoot;
         
         public override void InstallBindings()
         {
@@ -13,6 +15,12 @@ namespace Core.Boot.Installer
                 .Bind<Bootstrapper>()
                 .FromInstance(_bootstrapper)
                 .AsSingle().NonLazy();
+
+            Container
+                .Bind<UIRoot>()
+                .FromInstance(_uiRoot)
+                .AsSingle()
+                .NonLazy();
         }
 
         public override void Start()

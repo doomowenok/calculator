@@ -1,3 +1,4 @@
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace Services.Save
@@ -13,8 +14,10 @@ namespace Services.Save
         public bool TryLoad<TData>(ref TData data) where TData : ISaveLoadable<TData>
         {
             if(!PlayerPrefs.HasKey(typeof(TData).Name)) return false;
-            
-            TData loadedData = JsonUtility.FromJson<TData>(PlayerPrefs.GetString(typeof(TData).Name));
+
+            string json = PlayerPrefs.GetString(typeof(TData).Name);
+            Debug.Log($"Loaded json: {json}");
+            TData loadedData = JsonConvert.DeserializeObject<TData>(json);
             data.Load(loadedData);
             return true;
         }
