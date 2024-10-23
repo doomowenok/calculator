@@ -57,18 +57,24 @@ namespace Core.Features.Calculator
 
         private void ProcessResult(string result, SubmitResultType resultType)
         {
-            if (resultType == SubmitResultType.Error)
+            switch (resultType)
             {
-                _uiController.OpenWindow<InfoModel, InfoView, InfoPresenter, InfoShowParams>(
-                    UIPath.InfoViewPath,
-                    _uiRoot.Container,
-                    new InfoShowParams("Please check the expression you just entered"));   
+                case SubmitResultType.Error:
+                    _uiController.OpenWindow<InfoModel, InfoView, InfoPresenter, InfoShowParams>(
+                        UIPath.InfoViewPath,
+                        _uiRoot.Container,
+                        new InfoShowParams("Please check the expression you just entered"));   
+                    break;
+                case SubmitResultType.Success:
+                    View.InputField.text = string.Empty;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(resultType), resultType, null);
             }
             
             ResultView resultView = _calculatorElementFactory.CreateResultView(View.ResultContainer);
+            resultView.transform.SetSiblingIndex(0);
             resultView.SetResult(result);
-            
-            View.InputField.text = string.Empty;
         }
     }
 }

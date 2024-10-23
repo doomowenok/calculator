@@ -62,6 +62,7 @@ namespace Core.Features.Calculator
             };
 
             Results.Add(final);
+            _saveService.Save(this);
             OnResultsChanged?.Invoke(Results[^1], resultType);
         }
     }

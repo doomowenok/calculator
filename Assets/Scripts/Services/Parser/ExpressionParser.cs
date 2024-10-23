@@ -12,8 +12,8 @@ namespace Services.Parser
             
             if (results.Length != 2) return false;
 
-            if (!int.TryParse(results[0], out int first)) return false;
-            if (!int.TryParse(results[1], out int second)) return false;
+            if (!int.TryParse(results[0], out int first) || first < 0) return false;
+            if (!int.TryParse(results[1], out int second) || second < 0) return false;
 
             result = first + second;
             return true;
