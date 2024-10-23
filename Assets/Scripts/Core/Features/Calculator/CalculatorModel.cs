@@ -4,7 +4,6 @@ using Infrastructure.MVP;
 using Newtonsoft.Json;
 using Services.Parser;
 using Services.Save;
-using UnityEngine;
 
 namespace Core.Features.Calculator
 {
@@ -14,8 +13,9 @@ namespace Core.Features.Calculator
         private readonly IExpressionParser _expressionParser;
         private readonly ISaveService _saveService;
         public event Action<string, SubmitResultType> OnResultsChanged;
-
-        public string LastField;
+        
+        public string lastField;
+        
         public List<string> Results { get; private set; } = new List<string>();
 
         public CalculatorModel(IExpressionParser expressionParser, ISaveService saveService)
@@ -31,8 +31,7 @@ namespace Core.Features.Calculator
 
         void ISaveLoadable<CalculatorModel>.Load(CalculatorModel data)
         {
-            LastField = data.LastField;
-            Debug.Log(data.LastField);
+            lastField = data.lastField;
             Results = new List<string>(data.Results);
         }
 
@@ -46,19 +45,19 @@ namespace Core.Features.Calculator
 
         public void SetField(string field)
         {
-            LastField = field;
+            lastField = field;
             _saveService.Save(this);
         }
 
         public void Calculate()
         {
-            bool parseResult = _expressionParser.TryGetResult(LastField, out int result);
+            bool parseResult = _expressionParser.TryGetResult(lastField, out int result);
             SubmitResultType resultType = parseResult ? SubmitResultType.Success : SubmitResultType.Error;
 
             string final = resultType switch
             {
-                SubmitResultType.Error => $"{LastField}=ERROR",
-                SubmitResultType.Success => $"{LastField}={result}",
+                SubmitResultType.Error => $"{lastField}=ERROR",
+                SubmitResultType.Success => $"{lastField}={result}",
                 _ => throw new ArgumentOutOfRangeException()
             };
 

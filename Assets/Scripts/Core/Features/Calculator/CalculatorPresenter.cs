@@ -3,7 +3,6 @@ using Core.Features.Calculator.Factory;
 using Core.Features.Info;
 using Core.UI;
 using Infrastructure.MVP;
-using UnityEngine;
 using Zenject;
 
 namespace Core.Features.Calculator
@@ -48,8 +47,7 @@ namespace Core.Features.Calculator
         public override void Update()
         {
             base.Update();
-            Debug.Log(Model.LastField);
-            View.InputField.text = Model.LastField;
+            View.InputField.text = Model.lastField;
         }
 
         private void Calculate()

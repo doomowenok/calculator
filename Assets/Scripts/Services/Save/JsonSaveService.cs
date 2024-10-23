@@ -16,7 +16,6 @@ namespace Services.Save
             if(!PlayerPrefs.HasKey(typeof(TData).Name)) return false;
 
             string json = PlayerPrefs.GetString(typeof(TData).Name);
-            Debug.Log($"Loaded json: {json}");
             TData loadedData = JsonConvert.DeserializeObject<TData>(json);
             data.Load(loadedData);
             return true;
